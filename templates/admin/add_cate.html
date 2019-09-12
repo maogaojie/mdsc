@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<div class="breadcrub">
+    当前位置：新闻管理>添加分类
+</div>
+<div class="pannel">
+    <div class="news_review">
+
+        <h3 class="review_title">添加分类</h3>
+        <form id='form1' enctype="multipart/form-data">
+        <input type="hidden" name='id' value="{{ one_cate.id }}">
+            <div class="form_group">
+                <label>名称：</label>
+
+                <input type="text" name='name' class="input_txt2" value="{{ one_cate.name }}" width=100>
+            </div>
+            <div class="form_group">
+                <label>上级分类：</label>
+                <select name="pid">
+
+                    <option value=0>顶级分类</option>
+                    {% for x in cate1 %}
+                        <option value="{{ x.id }}">{{ x.name }}</option>
+                    {% endfor %}
+                    <option value=1>二级分类</option>
+                    {% for x in cate2 %}
+                        <option value="{{ x.id }}">{{ x.name }}</option>
+                    {% endfor %}
+                </select>
+
+            </div>
+            <div class="form_group">
+                <label>是否首页推荐：</label>
+
+                <input type="radio" name='is_recommend' value='1' value="">是
+                <input type="radio" name='is_recommend' value='0' value="">否
+            </div>
+            <div class="form_group">
+                <label>分类图片：</label>
+
+                <input type="file" name="pic" class="input_txt2" value="" width=100>
+            </div>
+            <div class="form_group indent_group line_top">
+                <input type="button" value="确定" class="confirm" onclick='addcate()'>
+                <input type="button" value="取消" class="cancel">
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+<script>
+    function addcate() {
+        $.ajax({
+            url: '/suser/submitaddcate',
+            type: 'post',
+            cache: false,
+            data: new FormData($('#form1')[0]),
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                console.log(res)
+                if (res.code == 200) {
+
+                    window.location.href = '/suser/showCate'
+                }
+            }
+        })
+    }
+</script>
+</html>

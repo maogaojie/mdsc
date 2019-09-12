@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../../static/tinymce/js/tinymce/tinymce.min.js "></script>
+    <script type="text/javascript" src="../../static/admin/js/tinymce_setup.js"></script>
+</head>
+<body>
+<div class="breadcrub">
+    当前位置：新闻管理>添加商品
+</div>
+<div class="pannel">
+    <div class="news_review">
+
+        <h3 class="review_title">添加商品</h3>
+        <form id='form1' enctype="multipart/form-data">
+            <input type="hidden" name='id' value="{{ one_cate.id }}">
+            <div class="form_group">
+                <label>名称：</label>
+
+                <input type="text" name='name' class="input_txt2" value="{{ one_cate.name }}" width=100>
+            </div>
+            <div class="form_group">
+                <label>商品描述：</label>
+
+                <input type="text" name='description' class="input_txt2" value="" width=100>
+            </div>
+            <div class="form_group">
+                <label>价格：</label>
+                <input type="text" name='price' class="input_txt2" value="" width=100>
+            </div>
+            <div class="form_group">
+                <label>库存：</label>
+                <input type="text" name='store' class="input_txt2" value="" width=100>
+            </div>
+            <div class="form_group">
+                <label>锁定库存：</label>
+                <input type="text" name='lock_store' class="input_txt2" value="" width=100>
+            </div>
+            <div class="form_group">
+                <label>分类：</label>
+                <select name="cid" id="cid">
+                    {% for x in cate2 %}
+                        <option value="{{ x.id }}">{{ x.name }}</option>
+                    {% endfor %}
+                </select>
+
+            </div>
+
+            <div class="form_group">
+                <label>分类图片：</label>
+
+                <input type="file" name="pic" class="input_txt2" value="" width=100>
+            </div>
+
+            <div class="form_group">
+                <label>详情：</label>
+                <input type="text" name='content' class="input_txt2" value="" width=100>
+            </div>
+            <div class="form_group">
+                <label>标签：</label>
+                <select name="tagid" id="tag">
+                    {% for x in tags %}
+                        <option value="{{ x.id }}">{{ x.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form_group">
+                <label>是否首页推荐：</label>
+
+                <input type="radio" name='is_recommend' value='1' value="">是
+                <input type="radio" name='is_recommend' value='0' value="">否
+            </div>
+            <div class="form_group indent_group line_top">
+                <input type="button" value="确定" class="confirm" onclick='addcate()'>
+                <input type="button" value="取消" class="cancel">
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+<script>
+    function addcate() {
+        $.ajax({
+            url: '/suser/submitaddgoods',
+            type: 'post',
+            cache: false,
+            data: new FormData($('#form1')[0]),
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                console.log(res)
+                if (res.code == 200) {
+
+                    window.location.href = '/suser/showGoods'
+                }
+            }
+        })
+    }
+
+
+//获取分类id
+$('#cid').change(function () {
+    var cid = $('#cid option:selected').val() //没换之前的ID
+    //清空值
+    $('#tag').empty()
+    $.ajax({
+        url: '/suser/tags',
+        type: 'get',
+        data: {'cid': cid},
+        success: function (res) {
+            if (res.code == 200){
+                for (var i=0; i<res.message.length;i++){
+
+                    $('#tag').append('<option value="'+res.message[i].id +'">'+res.message[i].name+'</option>')
+                }
+
+            }
+
+        }
+
+    })
+
+})
+
+
+</script>
+</html>

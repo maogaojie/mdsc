@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<div class="breadcrub">
+    当前位置：新闻管理>添加焦点图
+</div>
+<div class="pannel">
+    <div class="news_review">
+
+        <h3 class="review_title">添加焦点图</h3>
+        <form id='form1' enctype="multipart/form-data">
+        <input type="hidden" name='id' value="{{ one_cate.id }}">
+            <div class="form_group">
+                <label>焦点图片：</label>
+
+                <input type="file" name="name" class="input_txt2" value="" width=100>
+            </div>
+            <div class="form_group">
+                <label>排序</label>
+                <input type="text" name='sort' class="input_txt2" value="" width=100>
+            </div>
+            <div class="form_group">
+                <label>是否首页推荐：</label>
+
+                <input type="radio" name='is_show' value='1' value="">是
+                <input type="radio" name='is_show' value='0' value="">否
+            </div>
+            <div class="form_group">
+                <label>类型：</label>
+
+                <input type="radio" name='type' value='1' value="">焦点图
+                <input type="radio" name='type' value='0' value="">广告图
+            </div>
+
+            <div class="form_group indent_group line_top">
+                <input type="button" value="确定" class="confirm" onclick='addcate()'>
+                <input type="button" value="取消" class="cancel">
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+<script>
+    function addcate() {
+        $.ajax({
+            url: '/suser/submitaddbanner',
+            type: 'post',
+            cache: false,
+            data: new FormData($('#form1')[0]),
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                console.log(res)
+                if (res.code == 200) {
+
+                    window.location.href = '/suser/showBanner'
+                }
+            }
+        })
+    }
+</script>
+</html>

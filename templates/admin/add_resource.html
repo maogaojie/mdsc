@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<div class="breadcrub">
+    当前位置：用户管理>添加角色</div>
+<div class="pannel">
+    <div class="news_review">
+        <h3 class="review_title">添加资源</h3>
+        <form id='form1' enctype="multipart/form-data">
+        <input type="hidden" name='id' value="{{ one_cate.id }}">
+            <div class="form_group">
+                <label>资源名称：</label>
+                <input type="text" name='name' class="input_txt2" value="{{ one_cate.name }}" width=100>
+            </div>
+            <div class="form_group">
+                <label>资源路径：</label>
+                <input type="text" name='url' class="input_txt2" value="{{ one_cate.url }}" width=100>
+            </div>
+            <div class="form_group">
+                <label>是否启用：</label>
+                <input type="radio" name='status' value='1' value="">是
+                <input type="radio" name='status' value='0' value="">否
+                {#                1、启用 0、停用#}
+            </div>
+            <div class="form_group indent_group line_top">
+                <input type="button" value="确定" class="confirm" onclick='addcate()'>
+                <input type="button" value="取消" class="cancel">
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+<script>
+    function addcate() {
+        $.ajax({
+            url: '/suser/submitaddresource',
+            type: 'post',
+            cache: false,
+            data: new FormData($('#form1')[0]),
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                console.log(res)
+                if (res.code == 200) {
+                    window.location.href = '/suser/showResource'
+                }
+            }
+        })
+    }
+</script>
+</html>

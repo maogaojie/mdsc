@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../../static/admin/tinymce/js/tinymce/tinymce.min.js "></script>
+    <script type="text/javascript" src="../../static/admin/js/tinymce_setup.js"></script>
+</head>
+<body>
+<div class="breadcrub">
+    当前位置：新闻管理>添加新闻
+</div>
+<div class="pannel">
+    <div class="news_review">
+
+        <h3 class="review_title">添加新闻</h3>
+        <form id='form1' enctype="multipart/form-data">
+        <input type="hidden" name='id' value="{{ one_news.id }}">
+            <div class="form_group">
+                <label>标题：</label>
+
+                <input type="text" name='title' class="input_txt2" value="{{ one_news.title }}" width=100>
+            </div>
+            <div class="form_group">
+                <div class="form_group">
+                <label>是否首页推荐：</label>
+
+                <input type="radio" name='is_recommend' value='1' value="">是
+                <input type="radio" name='is_recommend' value='0' value="">否
+            </div>
+                <label>内容：</label>
+
+                <input type="text" name="content" class="input_txt2" value="" width=100 id="rich_content">
+            </div>
+
+            <div class="form_group indent_group line_top">
+                <input type="button" value="确定" class="confirm" onclick='addcate()'>
+                <input type="button" value="取消" class="cancel">
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+
+</body>
+<script>
+    function addcate() {
+        var content = tinyMCE.activeEditor.getContent()
+        {#alert($('#form1').serialize()+encodeURIComponent(content),)#}
+        $.ajax({
+            url: '/suser/submitaddnew',
+            type: 'post',
+            {#cache: false,#} //缓存
+            data: $('#form1').serialize()+encodeURIComponent(content),
+            {#processData: false,#}
+            {#contentType: false,#}
+            dataType:'json',
+            success: function (res) {
+                console.log(res)
+                if (res.code == 200) {
+                    window.location.href = '/suser/showNew'
+                }
+            }
+        })
+    }
+</script>
+</html>
