@@ -16,7 +16,7 @@ Click==7.0
 constantly==15.1.0
 cryptography==2.7
 cssselect==1.0.3
-Django==2.1.4
+Django==2.2.24
 django-celery==3.3.1
 django-redis==4.10.0
 djangorestframework==3.9.4
